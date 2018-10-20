@@ -15,11 +15,13 @@ while True:
         divNum = 1
         while True:
             try:
+                mugshot = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[2]/div[1]/a/img'.format(divNum))[0].attrib['src']
+                title = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[2]/div[2]/a/text()'.format(divNum))[0].strip()
                 headline = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[2]/p[1]/a/text()'.format(divNum))[0].strip()
                 url = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[2]/p[1]/a'.format(divNum))[0].attrib['href']
-                meter = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[1]/a/img'.format(divNum))[0].attrib['alt']
-                explanation = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[1]/p/text()'.format(divNum))[0]
-                outList.append({'headline': headline, 'meter': meter, 'url': url, 'explanation': explanation})
+                meter = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[1]/a/img'.format(divNum))[0].attrib['src']
+                explanation = tree.xpath('/html/body/div[2]/div/div[2]/div[2]/div/main/section/div[{}]/div/div[1]/p/text()'.format(divNum))[0].strip()
+                outList.append({'mugshot': mugshot, 'title': title, 'headline': headline, 'meter': meter, 'url': url, 'explanation': explanation})
                 divNum += 1
             except:
                 break

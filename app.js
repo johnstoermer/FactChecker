@@ -334,12 +334,11 @@ for (var i = 0; i < elements.length; i++) {
       var text = node.nodeValue;
       var expStr = stopwords.join("|");
       text = text
-        .replace(new RegExp("\\b(" + expStr + ")\\b", "gi"), "")
         .replace(/[^\w\s]|_/g, "")
         .replace(/\s+/g, " ");
       words = words.concat(text.split(" "));
     }
   }
 }
-
+//.replace(new RegExp("\\b(" + expStr + ")\\b", "gi"), "")
 console.log(words);
