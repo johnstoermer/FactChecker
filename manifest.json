@@ -1,0 +1,32 @@
+{
+"name": "FC Checker",
+"version":"1.0",
+"description": "Fact Checker Extension",
+"manifest_version": 2,
+"background":{
+    "scripts": ["background.js"],
+    "persistent": false
+},
+"browser_action": {
+  "default_title": "FactChecker",
+  "default_popup": "popup.html"
+},
+
+  "permissions":[
+    "activeTab",
+    "storage",
+      "tabs",
+      "webNavigation",
+      "*://*/*"
+    ],
+
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js":["app.js"],
+        "run_at": "document_idle"
+      }
+    ],
+    "incognito": "split"
+
+}
