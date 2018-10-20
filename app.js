@@ -1,4 +1,3 @@
-// @ts-check
 const stopwords = [
   "a",
   "about",
@@ -320,42 +319,27 @@ const stopwords = [
   "yourself",
   "yourselves"
 ];
-var flag = false;
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-  // If the received message has the expected format...
-  console.log("Content Script executed");
-  if (msg.text === "needDOM") {
-    // Call the specified callback, passing
-    // the web-page's DOM content as argument
-    // document.addEventListener("mouseup", checker, flag);
-    checker();
-  }
-});
 
-async function checker() {
-  console.log("script executed");
-  var elements = document.getElementsByTagName("*");
+var elements = document.getElementsByTagName("*");
 
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
+var words = [];
 
-    for (var j = 0; j < element.childNodes.length; j++) {
-      var node = element.childNodes[j];
+for (var i = 0; i < elements.length; i++) {
+  var element = elements[i];
 
-      if (node.nodeType === 3) {
-        var text = node.nodeValue;
-        var expStr = stopwords.join("|");
-        text = text
-          .replace(new RegExp("\\b(" + expStr + ")\\b", "gi"), " ")
-          .replace(/\s{2,}/g, " ");
-        var textArray = text.split(" ");
-      }
+  for (var j = 0; j < element.childNodes.length; j++) {
+    var node = element.childNodes[j];
+
+    if (node.nodeType === 3) {
+      var text = node.nodeValue;
+      var expStr = stopwords.join("|");
+      text = text
+        .replace(new RegExp("\\b(" + expStr + ")\\b", "gi"), "")
+        .replace(/[^\w\s]|_/g, "")
+        .replace(/\s+/g, " ");
+      words = words.concat(text.split(" "));
     }
   }
-  flag = false;
 }
 
-const getAPI = key =>
-  fetch(`https://primeval-rain-199602.appspot.com/${key}`).then(response =>
-    response.json()
-  );
+console.log(words);
