@@ -16181,30 +16181,42 @@ for (var i = 0; i < elements.length; i++) {
     }
   }
 }
-let count=0;
 
+var percentage=[];
 for(let i=0;i<data.length;i++){
+  let count=0;
+  let set1 = new Set();
   let headlineArray=data[i].headline.split(" ");
   let total=headlineArray.length;
+  console.log(headlineArray);
   for(let j=0;j<words.length;j++){
       for(let k=0;k<headlineArray.length;k++){
-        if(headlineArray[k]===words[j]){
+        if(headlineArray[k]===words[j]&&!set1.has(headlineArray[k])){
           count++;
+          set1.add(headlineArray[k]);
         }
       }
   }
-  console.log("I have reached this point"+ count/total);
-  if(((count/total)*100)>=80){
-    console.log("I have reached this point");
-    console.log(data[i]);
-    
-    chrome.runtime.sendMessage(
-      { text: "gotData", data: JSON.stringify(data[i]) },
-      function(response) {}
-    );
+  // console.log(set1);
+  percentage[i]=count/total;
+}
+console.log(percentage);
+let maxperc=Math.max(...percentage);
+let index=0;
+for(let p=0;p<percentage.length;p++){
+  if(maxperc===percentage[p]){
+    index=p;
     break;
   }
 }
+
+console.log("I have reached this point");
+// console.log(data[i]);
+console.log(index);
+chrome.runtime.sendMessage(
+  { text: "gotData", data: JSON.stringify(data[index]) },
+  function(response) {}
+);
 
 
 // chrome.runtime.sendMessage(
