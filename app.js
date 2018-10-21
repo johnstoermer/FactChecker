@@ -16210,11 +16210,18 @@ for(let p=0;p<percentage.length;p++){
   }
 }
 
+var correct_data=data[index];
+
+if(maxperc<0.70){
+    correct_data=null;
+}
+
+
 console.log("I have reached this point");
 // console.log(data[i]);
 console.log(index);
 chrome.runtime.sendMessage(
-  { text: "gotData", data: JSON.stringify(data[index]) },
+  { text: "gotData", data: JSON.stringify(correct_data) },
   function(response) {}
 );
 
